@@ -8,11 +8,12 @@ from models import db, Barber, Client, Review
 
 app = Flask(__name__)
 # set the db connection string
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.json.compact = False
 
 # set a secret key (needed for browser cookies)
-app.secret_key = os.environ['SECRET_KEY']
+app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 
 # initialize the sqlalchemy db
 db.init_app(app)
@@ -20,6 +21,71 @@ db.init_app(app)
 Migrate(app, db)
 # initialize CORS
 CORS(app, supports_credentials=True)
+
+@app.route('/')
+def root():
+    return '<h1>Yo</h1>'
+
+@app.route('/barbers', methods = ['GET', 'POST'])
+def get_barbers():
+    # query db for all barber objs
+    barbers = Barber.query.all()
+    if request.method == 'GET':
+        # map every barber obj to a barber dictionary
+        return [barber.to_dict() for barber in barbers], 200
+    
+    elif request.method == 'POST':
+        # get the json data from the request body
+        json_data = request.get_json()
+
+        # build new barber obj using info from json_data
+        # TODO: need to add validation
+        new_barber = Barber(
+            name=json_data.get('name')
+            address=json_data.get('address')
+            phone=json_data.get('phone')
+            image=json_data.get('image')
+            )
+        
+        # save to db
+        db.session.add(new_barber)
+        db.session.commit()
+        
+        # return a response
+        return new_barber.to_dict(), 201
+
+
+@app.route('/barbers/<int: id>', methods=['GET', 'PATCH', 'DELETE'])
+def barbers_by_id(id):
+    barber_obj = Barber.query.filter(Barber.id == id).first()
+    if not barber_obj:
+        return {'error': 'barber not found'}, 404
+    
+    if request.method == 'GET':
+        return barber_obj.to_dict(), 200
+    
+    elif request.method == 'PATCH':
+        json_data = request.get_json()
+
+        # update the barber obj with the new data #
+        # goes through each key in the json_data object
+        for field in json_data:
+            value = json_data[field] # gets the value for each key, and passes it in variable value
+            setattr(barber_obj, field, value) # takes barber_obj and sets the new value to its key
+
+        db.session.add(barber_obj)
+        db.session.commit()
+
+        return barber_obj, 200
+    
+    elif request.method == 'DELETE':
+        # delete dog from the db
+        db.session.delete(barber_obj)
+        db.session.commit()
+
+        return {}, 204
+        
+
 
 
 if __name__ == '__main__':

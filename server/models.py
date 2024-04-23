@@ -11,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy import MetaData
+from sqlalchemy import DateTime
 # from flask_bcrypt import Bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -24,7 +25,7 @@ convention = {
 }
 
 db = SQLAlchemy(metadata=MetaData(naming_convention=convention))
-bcrypt = Bcrypt()
+# bcrypt = Bcrypt()
 
 
 #table models
@@ -39,7 +40,7 @@ class Barber(db.Model):
     created_at=db.Column(db.Date)
 
     def __repr__(self):
-        return f'<Barber: {self.name}, {self.address}, {self.phone}'
+        return f'<Barber: {self.name}, {self.address}, {self.phone}>'
     
 ######## TODO in priority #######
 # Routes: get all Barbers 
@@ -68,9 +69,10 @@ class Review(db.Model):
     __tablename__ = 'reviews'
 
     id=db.Column(db.Integer, primary_key=True)
-    created_at=db.Column(db.Datetime)
-    updated_at=db.Column(db.Datetime)
+    created_at=db.Column(db.DateTime)
+    updated_at=db.Column(db.DateTime)
     rating=db.Column(db.Integer)
+    body=db.Column(db.String)
     client_id=db.Column(db.Integer, db.ForeignKey('clients.id'))
     barber_id=db.Column(db.Integer, db.ForeignKey('barbers.id'))
 

@@ -84,6 +84,57 @@ def barbers_by_id(id):
         db.session.commit()
 
         return {}, 204
+    
+
+@app.route('/clients', methods=['GET', 'POST'])
+def get_clients():
+    clients = Client.query.all()
+    if request.method == 'GET':
+        return [client.to_dict() for client in clients], 200
+    
+    elif request.method == 'POST':
+        json_data = request.get_json()
+
+        # add validation
+        new_client = Client(
+            name=json_data.get('name')
+        )
+        db.session.add(new_client)
+        db.session.commit()
+
+        return new_client.to_dict(), 201
+    
+@app.route('/clients/<int: id>', methods=['GET', 'PATCH', 'DELETE'])
+def clients_by_id(int):
+    client_obj = Client.query.filter(Client.id == id).first()
+    if not client_obj:
+        return {'error', 'client not found'}, 404
+    
+    if request.method == 'GET':
+        return client_obj.to_dict(), 200
+    
+    elif request.method == 'PATCH':
+        json_data = request.get_json()
+
+        for field in json_data:
+            value = json_data[field]
+            setattr(client_obj, field, value)
+
+        db.session.add(client_obj)
+        db.session.commit()
+
+        return client_obj.to_dict(), 200
+    
+    elif request.method == 'DELETE':
+        db.session.delete(client_obj)
+        db.session.commit()
+        return {}, 204
+    
+
+
+
+
+    
         
 
 

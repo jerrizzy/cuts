@@ -34,20 +34,22 @@ class Barber(db.Model):
 
     id=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String, nullable=False)
-    address=db.Column(db.String)
+    address=db.Column(db.String, nullable=False)
     phone=db.Column(db.String)
     image=db.Column(db.String)
     created_at=db.Column(db.Date)
+
+    # Add relationships
+    reviews = db.relationship('Review', back_populates='barber')
+
+    # Add serialization rules
+    serialize_rules = ['-reviews.barber']
 
     def __repr__(self):
         return f'<Barber: {self.name}, {self.address}, {self.phone}>'
     
 ######## TODO in priority #######
-# Routes: get all Barbers 
-# get BArbers by id 
-# a Barber can post, patch, delete from his account
-# get all clients
-# a Client can post, patch, delete
+# Routes: should I create routes for Review table
 
 # <Appointment schedule> table related to barber table coming later. Look into CALENDLY, GOOGLE Api for calendar
 # <user> table that holds barber id or client to use for authentication
@@ -60,6 +62,12 @@ class Client(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String, nullable=False)
     created_at=db.Column(db.Date)
+
+    # Add relationships
+    reviews = db.relationship('Review', back_populates='client')
+
+    # Add serialization rules
+    serialize_rules = ['-reviews.client']
 
     def __repr__ (self):
         return f'<Client: {self.name}, {self.created_at}>'
@@ -75,6 +83,13 @@ class Review(db.Model):
     body=db.Column(db.String)
     client_id=db.Column(db.Integer, db.ForeignKey('clients.id'))
     barber_id=db.Column(db.Integer, db.ForeignKey('barbers.id'))
+
+    # Add relationships
+    barber = db.relationship('Barber', back_populates='reviews')
+    client = db.relationship('Client', back_populates='reviews')
+
+    # Add serialization rules
+    serialize_rules = ['-barber.reviews', '-client.reviews']
 
     def __repr__(self):
         return f'<Review: {self.created_at}, {self.updated_at}, {self.updated_at}>'

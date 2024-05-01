@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom"
 
-function BarberCard({barber}) {
+function BarberCard({ barber }) {
 
 const reviewMessage = barber.reviews.length > 0 ? barber.reviews[0].message : '';
 const reviewRating = barber.reviews.length > 0 ? barber.reviews[2].rating : '';

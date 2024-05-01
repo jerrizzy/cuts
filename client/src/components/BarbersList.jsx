@@ -20,7 +20,7 @@ function BarbersList() {
             />
 
             <ul className="barber-list">
-                {filteredBarbers.map(barber => <li> <BarberCard key={barber.id} barber={barber} /> </li>)}
+                {barbers && filteredBarbers.map(barber => <li> <BarberCard key={barber.id} barber={barber} /> </li>)}
 
             </ul>
 

@@ -4,15 +4,13 @@ import Reviews from "./Reviews";
 function BarberPage() {
   const params = useParams();
 
-  console.log(params.id);
-  const { barbers } = useOutletContext();
+  const { barbers, setBarbers } = useOutletContext();
 
   console.log(barbers)
 
+
   const barber = barbers.find(barber => barber.id === parseInt(params.id));
   const reviews = barber.reviews;
-
-  console.log(reviews)
 
   if (!barber){
     return <h1>Loading...</h1>

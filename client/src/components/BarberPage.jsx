@@ -8,7 +8,6 @@ function BarberPage() {
 
   console.log(barbers)
 
-
   const barber = barbers.find(barber => barber.id === parseInt(params.id));
   const reviews = barber.reviews;
 

@@ -1,0 +1,22 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+}
+
+.nav-link {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+
+.active {
+    color: greenyellow;
+}
+
+/* .logo {
+    margin: 0;
+    font-size: 24px;} */
+

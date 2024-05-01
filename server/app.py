@@ -1,3 +1,16 @@
+"""
+To install flask. Do in terminal:
+
+pipenv install
+   pipenv install flask
+   pipenv install flask-sqlalchemy
+   pipenv install flask-migrate
+   pipenv install python-dotenv
+   pipenv install sqlalchemy-serializer
+   pipenv install flask-bcrypt
+   pipenv install flask-cors
+"""
+
 import os
 from flask import Flask, request, session
 from flask_migrate import Migrate
@@ -39,13 +52,15 @@ def get_barbers():
         json_data = request.get_json()
 
         # build new barber obj using info from json_data
-        # TODO: need to add validation
-        new_barber = Barber(
-            name=json_data.get('name')
-            address=json_data.get('address')
-            phone=json_data.get('phone')
-            image=json_data.get('image')
-            )
+        try:
+            new_barber = Barber(
+                name=json_data.get('name'),
+                address=json_data.get('address'),
+                phone=json_data.get('phone'),
+                image=json_data.get('image'),
+                )
+        except ValueError as e:
+            return {'errors': ['validation errors']}, 400
         
         # save to db
         db.session.add(new_barber)
@@ -55,7 +70,7 @@ def get_barbers():
         return new_barber.to_dict(), 201
 
 
-@app.route('/barbers/<int: id>', methods=['GET', 'PATCH', 'DELETE'])
+@app.route('/barbers/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def barbers_by_id(id):
     barber_obj = Barber.query.filter(Barber.id == id).first()
     if not barber_obj:
@@ -85,6 +100,13 @@ def barbers_by_id(id):
 
         return {}, 204
     
+@app.route('/barbers/<string:name>', methods=['GET'])
+def barbers_by_name(name):
+    barber_obj = Barber.query.filter(Barber.name == name).first()
+    if not barber_obj:
+        return {'error': 'barber not found'}, 404
+    return barber_obj.to_dict(), 200
+    
 
 @app.route('/clients', methods=['GET', 'POST'])
 def get_clients():
@@ -104,7 +126,7 @@ def get_clients():
 
         return new_client.to_dict(), 201
     
-@app.route('/clients/<int: id>', methods=['GET', 'PATCH', 'DELETE'])
+@app.route('/clients/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def clients_by_id(int):
     client_obj = Client.query.filter(Client.id == id).first()
     if not client_obj:
@@ -129,14 +151,27 @@ def clients_by_id(int):
         db.session.delete(client_obj)
         db.session.commit()
         return {}, 204
-    
-
-
-
-
-    
         
+@app.route('/reviews', methods=['POST'])
+def reviews():
+    if request.method == 'POST':
+        json_data = request.get_json()
+        print(json_data)
 
+        try:
+            new_review = Review(
+                rating=json_data.get('rating'),
+                message=json_data.get('message'),
+                barber_id=json_data.get('barber_id'),
+                client_id=json_data.get('client_id')
+            )
+        except ValueError as e:
+            return {'errors': ['validation errors']}, 400
+        
+        db.session.add(new_review)
+        db.session.commit()
+
+        return new_review.to_dict(), 201
 
 
 if __name__ == '__main__':

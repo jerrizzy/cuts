@@ -5,8 +5,6 @@ flask db init  # creates the migration folder (only need to run this once)
 flask db migrate -m 'some message'  # creates the revision file
 flask db upgrade  # apply db changes from revision file
 """
-
-
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
@@ -29,39 +27,59 @@ db = SQLAlchemy(metadata=MetaData(naming_convention=convention))
 
 
 #table models
-class Barber(db.Model):
+class Appointment(db.Model, SerializerMixin):
+    __tablename__ = 'appointments'
+
+    id=db.Column(db.Integer, primary_key=True)
+    availability=db.Column(db.DateTime, nullable=False)
+    barber_id=db.Column(db.Integer, db.ForeignKey('barbers.id'))
+
+    # relationship with Barber
+    barber = db.relationship('Barber', back_populates='appointments')
+    serialize_rules=['-barber.appointments']
+
+class Barber(db.Model, SerializerMixin):
     __tablename__ = 'barbers'
+
+### TODO: generate QRcode for each barbershop that takes to their page for reviews
 
     id=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String, nullable=False)
     address=db.Column(db.String, nullable=False)
     phone=db.Column(db.String)
     image=db.Column(db.String)
-    created_at=db.Column(db.Date)
+    created_at=db.Column(db.DateTime, server_default=db.func.now())
 
     # Add relationships
-    reviews = db.relationship('Review', back_populates='barber')
+    reviews = db.relationship('Review', back_populates='barber', cascade='all, delete-orphan')
 
     # Add serialization rules
-    serialize_rules = ['-reviews.barber']
+    serialize_rules = ['-reviews.barber', '-appointments.barber']
+
+    # relationship with Appointment
+    appointments = db.relationship('Appointment', back_populates='barber')
+
+    @validates('phone')
+    def validates_phone(self, key, new_phone):
+        if len(new_phone) != 10 or not new_phone.isdigit():
+            raise ValueError('Phone number must be 10 digits')
+        return new_phone
 
     def __repr__(self):
         return f'<Barber: {self.name}, {self.address}, {self.phone}>'
     
 ######## TODO in priority #######
-# Routes: should I create routes for Review table
 
-# <Appointment schedule> table related to barber table coming later. Look into CALENDLY, GOOGLE Api for calendar
+# Look into CALENDLY, GOOGLE Api for calendar for Appointment table
 # <user> table that holds barber id or client to use for authentication
 # <QR code> for each barber => front end
 
-
-class Client(db.Model):
+class Client(db.Model, SerializerMixin):
     __tablename__ = 'clients'
 
     id=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String, nullable=False)
-    created_at=db.Column(db.Date)
+    created_at=db.Column(db.DateTime, server_default=db.func.now())
 
     # Add relationships
     reviews = db.relationship('Review', back_populates='client')
@@ -73,14 +91,18 @@ class Client(db.Model):
         return f'<Client: {self.name}, {self.created_at}>'
     
 
-class Review(db.Model):
+class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
+### TODO: rating should only be between 1 - 5 per each user => implement stars with react
+### TODO: each barber should have an overall rating which is their average
+### TODO: total number of ratings
+
     id=db.Column(db.Integer, primary_key=True)
-    created_at=db.Column(db.DateTime)
-    updated_at=db.Column(db.DateTime)
+    created_at=db.Column(db.DateTime, server_default=db.func.now())
+    updated_at=db.Column(db.DateTime, onupdate=db.func.now())
     rating=db.Column(db.Integer)
-    body=db.Column(db.String)
+    message=db.Column(db.String(80))
     client_id=db.Column(db.Integer, db.ForeignKey('clients.id'))
     barber_id=db.Column(db.Integer, db.ForeignKey('barbers.id'))
 
@@ -91,6 +113,16 @@ class Review(db.Model):
     # Add serialization rules
     serialize_rules = ['-barber.reviews', '-client.reviews']
 
+    @validates('message')
+    def validate_length(self, key, string):
+        if len(string) > 80:
+            raise ValueError('Review must be less than 80 characters long')
+        return string
+    
+    @validates('rating')
+    def validate_rating(self, key, rating):
+        return rating
+
+
     def __repr__(self):
         return f'<Review: {self.created_at}, {self.updated_at}, {self.updated_at}>'
-    

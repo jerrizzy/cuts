@@ -59,6 +59,14 @@ def login():
     
     return user.to_dict(), 200
 
+#logout route
+@app.route('/logout', methods=['GET'])
+def logout():
+
+    # delete the session cookie that holds user_id from the browser
+    session.pop('user_id', None)
+    return {'message': 'logged out'}, 204
+
 # checking if user is already or currently logged in
 @app.route('check_session', methods=['GET'])
 def check_session():

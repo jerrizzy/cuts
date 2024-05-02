@@ -1,5 +1,6 @@
 import React from 'react'
 import { Outlet, useOutletContext} from "react-router-dom"
+import { FaStar } from "react-icons/fa"
 import NewReview from './NewReview'
 
 const Reviews = ({ reviews, barber }) => {
@@ -8,6 +9,7 @@ const Reviews = ({ reviews, barber }) => {
   return (
     <div>
         <h2>Reviews</h2>
+        <NewReview barber={barber} />
         <ul>
             {reviews.map(review => (
                 <li key={review.id}>
@@ -17,7 +19,7 @@ const Reviews = ({ reviews, barber }) => {
                 </li>
             ))}
         </ul>
-        <NewReview barber={barber} />
+        
     </div>
   )
 }

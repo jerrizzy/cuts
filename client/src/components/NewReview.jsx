@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import useNavigate from 'react-router-dom'
 
 function NewReview({ barber }) {
     const [message, setMessage] = useState("");
@@ -6,11 +7,17 @@ function NewReview({ barber }) {
     const [client, setClient] = useState(3);
     const [created_at, setCreated_at] = useState(new Date());
     const [barber_id, setBarber_id] = useState(barber.id);
+    const [showForm, setShowForm] = useState(false);
     const [review, setReview] = useState([]);
+    // const navigate = useNavigate();
 
     useEffect(() => {
         setReview(barber.reviews);
     }, [barber]);
+
+    function handleShowForm() {
+        setShowForm((showForm) =>!showForm);
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -38,10 +45,13 @@ function NewReview({ barber }) {
         });
     }
 
+    // TODO: show post review without refreshing page
   return (
     <div>
-        <h3>Write Review</h3>
-        <form className="new-message" onSubmit={handleSubmit}>
+        <button className="add-review-button" onClick={handleShowForm}>Write Review</button>
+        {showForm ?
+        <div className="form">
+        <form className="new-message-form" onSubmit={handleSubmit}>
         <input
             type="text"
             name="message"
@@ -49,8 +59,9 @@ function NewReview({ barber }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={handleShowForm}>Submit</button>
         </form>
+        </div> : null}
     </div>
   )
 }

@@ -16,16 +16,17 @@ from flask import Flask, request, session
 from flask_migrate import Migrate
 from flask_cors import CORS
 
-from models import db, Barber, Client, Review
+from models import db, Barber, Client, Review, User
 
 
 app = Flask(__name__)
 # set the db connection string
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
 # set a secret key (needed for browser cookies)
+# app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 
 # initialize the sqlalchemy db
@@ -38,6 +39,41 @@ CORS(app, supports_credentials=True)
 @app.route('/')
 def root():
     return '<h1>Yo</h1>'
+
+# login route
+@app.route('/login', methods=['POST'])
+def login():
+    json_data = request.get_json()
+
+    # check if user exists in db
+    user = User.query.filter(User.username == json_data.get('username')).first()
+    if not user:
+        return {'errors': ['user does not exist']}, 404
+    
+    # check if password is valid by passing it to authenticate method in User model
+    if not user.authenticate(json_data.get('password')):
+        return {'errors': ['invalid password']}, 401
+    
+    # store a cookie in the browser with session from flask session so user doesn't have to login every time he goes to a new page on the site
+    session['user_id'] = user.id #user_id is the cookie name
+    
+    return user.to_dict(), 200
+
+# checking if user is already or currently logged in
+@app.route('check_session', methods=['GET'])
+def check_session():
+    # get the user_id from the session cookie or browser cookie
+    user_id = session.get('user_id')
+
+    user = User.query.filter(User.id == user_id).first() # query db to check if user exists in db
+
+    if not user:
+        return {'errors': ['user does not exist']}, 401
+    
+    return user.to_dict(), 200
+    
+
+
 
 @app.route('/barbers', methods = ['GET', 'POST'])
 def get_barbers():

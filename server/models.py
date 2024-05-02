@@ -10,7 +10,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy import MetaData
 from sqlalchemy import DateTime
-# from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
@@ -23,10 +23,31 @@ convention = {
 }
 
 db = SQLAlchemy(metadata=MetaData(naming_convention=convention))
-# bcrypt = Bcrypt()
+bcrypt = Bcrypt()
 
 
 #table models
+class User(db.Model, SerializerMixin):
+    __tablename__ = 'users'
+    id=db.Column(db.Integer, unique=True, primary_key=True)
+    username=db.Column(db.String, unique=True, nullable=False)
+    _password=db.Column(db.String, nullable=False)
+
+    @hybrid_property
+    def password(self):
+        return self._password
+    
+    #sets the new password into attribute _password
+    @password.setter
+    def password(self, new_password):
+        pass_hash = bcrypt.generate_password_hash(new_password.decode('utf-8')) #decode the password into a binary string via utf-8. bcrypt encodes the password into a random string so it's not human readable in the database
+        self._password = pass_hash.decode('utf-8')
+
+    #checking password is valid when logging in
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(self._password, password.encode('utf-8'))
+
+
 class Appointment(db.Model, SerializerMixin):
     __tablename__ = 'appointments'
 

@@ -4,7 +4,8 @@ import "./NavBar.css";
 function NavBar() {
   return (
     <nav className="navbar">
-        <h1 className="logo">Fade</h1>
+      
+        <NavLink to="/"><h1 className="logo">Fade</h1></NavLink>
 
         <div className="nav-link">
         <NavLink

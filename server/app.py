@@ -15,6 +15,7 @@ import os
 from flask import Flask, request, session
 from flask_migrate import Migrate
 from flask_cors import CORS
+from sqlalchemy.exc import IntegrityError
 
 from models import db, Barber, Client, Review, User
 
@@ -39,6 +40,33 @@ CORS(app, supports_credentials=True)
 @app.route('/')
 def root():
     return '<h1>Yo</h1>'
+
+# signup route
+@app.route('signup', methods=['POST'])
+def signup():
+    # get the json data from the request, which comes from the signup form, from browser, from user
+    json_data = request.get_json()
+
+    user = User.query.filter(User.username == json_data.get('username')).first()
+    if user:
+        return {'errors': 'user already exists'}, 400
+
+    # try:
+
+    # create a new user with the data from the json_data
+    new_user = User(
+        username=json_data.get('username'),
+        password=json_data.get('password')
+    )
+
+    # except IntegrityError as e:
+        # return {'errors': "user already exists"}, 400
+
+    # add the new user to database
+    db.session.add(new_user)
+    db.session.commit()
+
+    return new_user.to_dict(), 201
 
 # login route
 @app.route('/login', methods=['POST'])

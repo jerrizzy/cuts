@@ -66,6 +66,7 @@ class Barber(db.Model, SerializerMixin):
 
     id=db.Column(db.Integer, primary_key=True)
     name=db.Column(db.String, nullable=False)
+    website=db.Column(db.String)
     street=db.Column(db.String, nullable=False)
     city=db.Column(db.String, nullable=False)
     state=db.Column(db.String, nullable=False)

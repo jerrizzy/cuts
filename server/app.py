@@ -22,7 +22,7 @@ from models import db, Barber, Client, Review, User
 
 app = Flask(__name__)
 # set the db connection string
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
@@ -42,7 +42,7 @@ def root():
     return '<h1>Yo</h1>'
 
 # signup route
-@app.route('signup', methods=['POST'])
+@app.route('/signup', methods=['POST'])
 def signup():
     # get the json data from the request, which comes from the signup form, from browser, from user
     json_data = request.get_json()
@@ -96,7 +96,7 @@ def logout():
     return {'message': 'logged out'}, 204
 
 # checking if user is already or currently logged in
-@app.route('check_session', methods=['GET'])
+@app.route('/check_session', methods=['GET'])
 def check_session():
     # get the user_id from the session cookie or browser cookie
     user_id = session.get('user_id')

@@ -8,13 +8,18 @@ function NavBar() {
         <NavLink to="/"><h1 className="logo">Fade</h1></NavLink>
 
         <div className="nav-link">
+
+        <div className="barbers-button">
         <NavLink
         to="/barbers"
         >Barbers</NavLink>
-      
+        </div>
+
+        <div>
         <NavLink
             to="/login"
         >Login</NavLink>
+        </div>
         </div>
     </nav>
   );

@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import BarbersList from './components/BarbersList.jsx'
 import BarberPage from './components/BarberPage.jsx'
+import Home from './components/Home.jsx'
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <h1>Not Found</h1>,
     children: [
+    {
+      path: "/",
+      element: <Home />,
+    },
     {
       path: "/barbers",
       element: <BarbersList />,

@@ -29,23 +29,36 @@ bcrypt = Bcrypt()
 #table models
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-    id=db.Column(db.Integer, unique=True, primary_key=True)
-    username=db.Column(db.String, unique=True, nullable=False)
-    _password=db.Column(db.String, nullable=False)
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, nullable=False, unique=True)
+    _password = db.Column(db.String, nullable=False)
+    role=db.Column(db.String, default='client')
+    barber_id=db.Column(db.Integer, db.ForeignKey('barbers.id'))
+    client_id=db.Column(db.Integer, db.ForeignKey('clients.id'))
+
+    client = db.relationship('Client', back_populates='user')
+    barber = db.relationship('Barber', back_populates='user')
+
+    serialize_rules = ['-client', '-barber']
 
     @hybrid_property
     def password(self):
         return self._password
     
     #sets the new password into attribute _password
+    #decode the password into a binary string via utf-8. bcrypt encodes the password into a random string so it's not human readable in the database
     @password.setter
     def password(self, new_password):
-        pass_hash = bcrypt.generate_password_hash(new_password.decode('utf-8')) #decode the password into a binary string via utf-8. bcrypt encodes the password into a random string so it's not human readable in the database
+        pass_hash = bcrypt.generate_password_hash(new_password.encode('utf-8'))
         self._password = pass_hash.decode('utf-8')
 
-    #checking password is valid when logging in
+# checking password is valid when logging in
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password, password.encode('utf-8'))
+    
+    def __repr__(self):
+        return f"User ('{self.username}')"
 
 
 class Appointment(db.Model, SerializerMixin):
@@ -78,8 +91,10 @@ class Barber(db.Model, SerializerMixin):
     # Add relationships
     reviews = db.relationship('Review', back_populates='barber', cascade='all, delete-orphan')
 
+    user = db.relationship('User', back_populates='barber', uselist=False)
+
     # Add serialization rules
-    serialize_rules = ['-reviews.barber', '-appointments.barber']
+    serialize_rules = ['-reviews.barber', '-appointments.barber', '-user.barber']
 
     # relationship with Appointment
     appointments = db.relationship('Appointment', back_populates='barber')
@@ -109,8 +124,10 @@ class Client(db.Model, SerializerMixin):
     # Add relationships
     reviews = db.relationship('Review', back_populates='client')
 
+    user = db.relationship('User', back_populates='client', uselist=False)
+
     # Add serialization rules
-    serialize_rules = ['-reviews.client']
+    serialize_rules = ['-reviews.client', '-user.client']
 
     def __repr__ (self):
         return f'<Client: {self.name}, {self.created_at}>'
@@ -127,7 +144,7 @@ class Review(db.Model, SerializerMixin):
     created_at=db.Column(db.DateTime, server_default=db.func.now())
     updated_at=db.Column(db.DateTime, onupdate=db.func.now())
     rating=db.Column(db.Integer)
-    message=db.Column(db.String(80))
+    message=db.Column(db.String)
     client_id=db.Column(db.Integer, db.ForeignKey('clients.id'))
     barber_id=db.Column(db.Integer, db.ForeignKey('barbers.id'))
 
@@ -140,7 +157,7 @@ class Review(db.Model, SerializerMixin):
 
     @validates('message')
     def validate_length(self, key, string):
-        if len(string) > 80:
+        if len(string) > 200:
             raise ValueError('Review must be less than 80 characters long')
         return string
     

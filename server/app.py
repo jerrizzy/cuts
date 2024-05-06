@@ -22,13 +22,13 @@ from models import db, Barber, Client, Review, User
 
 app = Flask(__name__)
 # set the db connection string
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
 # set a secret key (needed for browser cookies)
-# app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+# app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 
 # initialize the sqlalchemy db
 db.init_app(app)
@@ -54,19 +54,48 @@ def signup():
     # try:
 
     # create a new user with the data from the json_data
-    new_user = User(
-        username=json_data.get('username'),
-        password=json_data.get('password')
+    if json_data.get('role') == 'barber':
+        new_user = User(
+            username=json_data.get('username'),
+            password=json_data.get('password'),
+            role='barber'
+            )
+        
+        new_barber = Barber(
+        name=json_data.get('username'),
+        website=json_data.get('website'),
+        street=json_data.get('street'),
+        city=json_data.get('city'),
+        state=json_data.get('state'),
+        zip_code=json_data.get('zip_code')
     )
+        new_user.barber = new_barber # this links new_user to new_barber. Now they're related objects
+        
+        db.session.add_all([new_user, new_barber])
+        db.session.commit()
 
-    # except IntegrityError as e:
-        # return {'errors': "user already exists"}, 400
+        return new_user.to_dict(), 201
+    
+    elif json_data.get('role') == 'client':
+    # create a new user with the data from the json_data
+        new_user = User(
+            username=json_data.get('username'),
+            password=json_data.get('password')
 
-    # add the new user to database
-    db.session.add(new_user)
-    db.session.commit()
+        )
+        new_client = Client(
+            name=json_data.get('username')
+        )
+        new_user.client = new_client # this links new_user to new_client. Now they're related objects
 
-    return new_user.to_dict(), 201
+        # except IntegrityError as e:
+            # return {'errors': "user already exists"}, 400
+
+        # add the new user to database
+        db.session.add_all([new_user, new_client])
+        db.session.commit()
+
+        return new_user.to_dict(), 201
 
 # login route
 @app.route('/login', methods=['POST'])
@@ -127,7 +156,11 @@ def get_barbers():
         try:
             new_barber = Barber(
                 name=json_data.get('name'),
-                address=json_data.get('address'),
+                website=json_data.get('website'),
+                street=json_data.get('street'),
+                city=json_data.get('city'),
+                state=json_data.get('state'),
+                zip_code=json_data.get('zip_code'),
                 phone=json_data.get('phone'),
                 image=json_data.get('image'),
                 )

@@ -1,17 +1,174 @@
-.barber-card-container {
-    border-color: rgb(235, 235, 235);
-    display: flex;
-    flex-flow: row;
-    padding: 24px !important;
+#main {
+    max-width: 900px;
+    margin: auto;
 }
+
+.barberimage {
+    min-width: 300px;
+    height: auto;
+    border-radius: 12px;
+    width: 100%; /* Ensures the image covers the card width */
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensures the image covers the space without stretching */
+}
+
 
 ul  {
     list-style-type: none;
 }
 
-.barber-card-container {
-    border-color: rgb(235, 235, 235);
-    display: flex;
-    flex-flow: row;
-    padding: 24px !important;
+.barber-list{
+  border: solid rgb(235, 235, 235);
+  row-gap: 20px;
 }
+
+
+.barber-card-container {
+  border-color: rgb(235, 235, 235);
+  display: flex;
+  /* flex-flow: row; */
+  /* flex-direction: row; */
+  align-items: center;
+  column-gap: 10px;
+  padding: 24px !important;
+  border: solid rgb(235, 235, 235);
+
+}
+
+.barber-card-container:hover {
+  transform: translateY(-5px); /* Slightly raises the card on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Increases shadow on hover for more depth */
+}
+
+.barber-card-container {
+  border-radius: 4px;
+  transition: box-shadow .3s;
+}
+
+.barber-card-detail {
+  display: flex;
+  flex-direction: row;
+  /* gap: 8px; */
+  padding-left: 24px;
+  /* align-content:normal; */
+  /* text-align: left; */
+  /* margin-top: 60px; */
+  /* min-width: 20vw; */
+  /* max-width: 70vw; */
+  flex-wrap: wrap;
+  /* padding: 50px; */
+  /* gap: 8px; */
+}
+
+.barber-card-rating{
+  display: flex;
+  flex-direction: column;
+  /* gap: 8px; */
+  /* align-items: center; */
+  /* padding-left: 50px; */
+  padding-right: 24px;
+  font-size: 15px;
+}
+
+
+.banner h1 {
+    
+    font-size: 22px;
+    text-align: center;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+}
+
+.banner h3 {
+    margin-bottom: 100px;
+}
+
+.nav-link .barbers-button {
+    border-radius: 24px;
+    background-color: rgb(246, 246, 246);
+    box-shadow: transparent 0px 0px 0px 1px inset;
+    color: rgb(73, 73, 73);
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    letter-spacing: -0.04ch;
+    font-weight: 700;
+    line-height: 22px;
+}
+
+
+.rating > label {
+    margin-right: 4px;
+  }
+  
+  .rating:not(:checked) > input {
+    display: none;
+  }
+
+  .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content:left;
+  }
+  
+  
+  /* .rating:not(:checked) > label > svg {
+    fill: #666;
+    transition: fill 0.3s ease;
+  } */
+  
+  /* .rating > input:checked ~ label > svg {
+    fill: #ffa723;
+  }
+  
+  .rating:not(:checked) > label:hover ~ label > svg,
+  .rating:not(:checked) > label:hover > svg {
+    fill: #ff9e0b;
+  }
+  
+  #star1:hover ~ label > svg,
+  #star1:hover > svg {
+    fill: #a23c3c !important;
+  }
+  
+  #star2:hover ~ label > svg,
+  #star2:hover > svg {
+    fill: #99542d !important;
+  }
+  
+  #star3:hover ~ label > svg,
+  #star3:hover > svg {
+    fill: #9f7e18 !important;
+  }
+  
+  #star4:hover ~ label > svg,
+  #star4:hover > svg {
+    fill: #22885e !important;
+  }
+  
+  #star5:hover ~ label > svg,
+  #star5:hover > svg {
+    fill: #7951ac !important;
+  }
+  
+  #star1:checked ~ label > svg {
+    fill: #ef4444;
+  }
+  
+  #star2:checked ~ label > svg {
+    fill: #e06c2b;
+  }
+  
+  #star3:checked ~ label > svg {
+    fill: #eab308;
+  }
+  
+  #star4:checked ~ label > svg {
+    fill: #19c37d;
+  }
+  
+  #star5:checked ~ label > svg {
+    fill: #ab68ff;
+  } */
+  

@@ -1,8 +1,8 @@
-"""added columns in Barber model
+"""initial migrate
 
-Revision ID: 749005012dfb
+Revision ID: e1081e20b389
 Revises: 
-Create Date: 2024-05-02 19:16:03.110161
+Create Date: 2024-05-03 00:17:02.358253
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '749005012dfb'
+revision = 'e1081e20b389'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,7 +42,6 @@ def upgrade():
     sa.Column('username', sa.String(), nullable=False),
     sa.Column('_password', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_users')),
-    sa.UniqueConstraint('id', name=op.f('uq_users_id')),
     sa.UniqueConstraint('username', name=op.f('uq_users_username'))
     )
     op.create_table('appointments',

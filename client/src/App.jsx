@@ -33,7 +33,7 @@ function App() {
  }
 
   return (
-    <div>
+    <div id="main">
       
       <header>
         <NavBar />     

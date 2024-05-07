@@ -1,11 +1,21 @@
 import BarberCard from "./BarberCard";
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import {APIProvider, Map, AdvancedMarker, Pin, InfoWindow} from '@vis.gl/react-google-maps';
 
 function BarbersList() {
     const { barbers, setBarbers } = useOutletContext();
     const [search, setSearch] = useState("");
+    const { search: params } = useParams();
+
+    console.log("these are my barbers before attempting to use params to grab a specific barber")
+    console.log(barbers)
+    
+    // TODO: Fix single-barber extraction script.
+    // NOTE: Probably broken due to use of `params`.
+    const barber = barbers.find(barber => barber.params === barber.params);
+    console.log("this is my barber:")
+    console.log(barber)
 
     const filteredBarbers = barbers.filter((barber) =>
     barber.name.toLowerCase().includes(search.toLowerCase())

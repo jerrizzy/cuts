@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import BarberPage from './BarberPage';
 
 function BarberCard({ barber, key }) {
-    
+  // const [rating, setRating] = useState(averageRating);
 
 const reviewMessage = barber.reviews.length > 0 ? barber.reviews[0].message : '';
 const reviewRating = barber.reviews.length > 0 ? barber.reviews[0].rating : '';
@@ -16,7 +16,9 @@ const averageRating = Math.ceil(barber.reviews.reduce((acc, review) => {
     return acc + review.rating;
 }, 0) / barber.reviews.length); // get average rating
 
-const [rating, setRating] = useState(averageRating);
+// TODO: averagerating is not updating unless the page is refreshed, and needs to be passed to the BarberPage component and rendered there as well
+// bug: after adding a review, the average rating is not updating on the barber card
+console.log(averageRating);
 
 
 return (
@@ -36,7 +38,8 @@ return (
             <div className='barber-card-rating'>
             <p>review: {reviewMessage}</p>
             {/* <p>{barber.bio}</p> */}
-            <p>rating: {averageRating}</p>
+            {/* <p>overall: {averageRating}</p> */}
+
             
 
     <div className="rating">

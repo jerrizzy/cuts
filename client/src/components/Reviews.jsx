@@ -21,27 +21,26 @@ const Reviews = ({ reviews, barber }) => {
         <h2>Reviews</h2>
         <NewReview barber={barber} review={review} setReview={setReview} />
 
+        <div className='review-list'>
         <ul>
             {/* Render all reviews */}
-                {allReviews.map((review, index) => (
-                    <li key={index}>
-                        <p>{review.created_at}</p>
-                        <Box
-                            sx={{
-                                '& > legend': { mt: 2 },
-                            }}
-                        >
-                            <Typography component="legend">Rating</Typography>
-                            <Rating name="read-only" value={review.rating} readOnly />
-                        </Box>
-                        <p>{review.message}</p>
-                         
+        {allReviews.map((review, index) => (
+            <li key={index}>
+                <p>{review.created_at}</p>
+                <Box
+                    sx={{
+                        '& > legend': { mt: 2 },
+                    }}>
+                    <Typography component="legend"></Typography>
+                    <Rating name="read-only" value={review.rating} readOnly />
+                </Box>
+                <p>{review.message}</p>      
                 </li>
             ))}
         </ul>
+    </div>
 
     </div>
   )
 }
-
 export default Reviews

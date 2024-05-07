@@ -2,7 +2,7 @@ import { useParams, useOutletContext } from "react-router-dom";
 import Reviews from "./Reviews";
 import QRCode from "qrcode.react";
 
-function BarberPage() {
+function BarberPage({ averageRating }) {
   const params = useParams();
 
   const { barbers, setBarbers } = useOutletContext();
@@ -10,7 +10,8 @@ function BarberPage() {
   console.log(barbers)
 
   const barber = barbers.find(barber => barber.id === parseInt(params.id));
-  const reviews = barber.reviews;
+  // const reviews = barber.reviews;
+  const reviews = barber ? barber.reviews : []; // Add null check here
 
   if (!barber){
     return <h1>Loading...</h1>
@@ -27,8 +28,8 @@ function BarberPage() {
           <QRCode value={window.location.href} size={256}
     style={{ height: "auto", maxWidth: "40%", width: "20%" }}
     viewBox={`0 0 256 256`} />
-    
         </div>
+        <div>{averageRating}</div>
         <h1>{barber.name}</h1>
         <p>{barber.bio}</p>
         <p>{barber.website}</p>

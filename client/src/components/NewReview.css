@@ -1,0 +1,117 @@
+.form {
+    padding-top: 20px; /* Adds padding around the form */
+    padding-bottom:20px;
+    padding-left: 100px;
+    padding-right: 100px;
+    background-color: #FFC374; /* Optional: adds a background color to the form area */
+    border-radius: 8px; /* Optional: rounds the corners of the form */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow to the form */
+    max-width: 40vw; /* Optional: limits the form width for better layout */
+    margin: auto; /* Centers the form on the page */
+}
+
+.new-message-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Increases the gap between form elements */
+    width: 100%
+}
+
+.new-message-form .input-text {
+    width: 100%; /* Makes the input take the full width of the form */
+    padding: 12px 20px; /* Increases padding inside the inputs for larger touch targets */
+    margin: 8px 320px; /* Adds margin around each input for better spacing */
+    display: inline-block;
+    border: 1px solid #ccc; /* Adds a border to the inputs */
+    border-radius: 4px; /* Rounds the corners of the inputs */
+    box-sizing: border-box; /* Ensures padding does not affect the final computed width of the input */
+    font-size: 16px; /* Increases the font size for better readability */
+}
+
+.new-message-form .submit {
+    width: 100%; /* Makes the submit button take the full width of the form */
+    background-color: #FF6C22; /* Adds a background color to the submit button */
+    color: white; /* Changes the text color to white for better contrast */
+    padding: 14px 20px; /* Increases padding inside the button for a larger touch target */
+    margin: 8px 0; /* Adds margin around the button for better spacing */
+    border: none;
+    border-radius: 4px; /* Rounds the corners of the button */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the button */
+    font-size: 16px; /* Increases the font size for better readability */
+}
+
+.new-message-form .submit:hover {
+    background-color: #45a049; /* Changes the background color when hovering over the button */
+
+}
+
+.rating > label {
+    margin-right: 4px;
+}
+  
+.rating:not(:checked) > input {
+    display: none;
+}
+
+  
+  
+.rating:not(:checked) > label > svg {
+    fill: #666;
+    transition: fill 0.3s ease;
+  } 
+  
+.rating > input:checked ~ label > svg {
+    fill: #ffa723;
+  }
+  
+  .rating:not(:checked) > label:hover ~ label > svg,
+  .rating:not(:checked) > label:hover > svg {
+    fill: #ff9e0b;
+  }
+  
+  #star1:hover ~ label > svg,
+  #star1:hover > svg {
+    fill: #a23c3c !important;
+  }
+  
+  #star2:hover ~ label > svg,
+  #star2:hover > svg {
+    fill: #99542d !important;
+  }
+  
+  #star3:hover ~ label > svg,
+  #star3:hover > svg {
+    fill: #9f7e18 !important;
+  }
+  
+  #star4:hover ~ label > svg,
+  #star4:hover > svg {
+    fill: #22885e !important;
+  }
+  
+#star5:hover ~ label > svg,
+  #star5:hover > svg {
+    fill: #7951ac !important;
+}
+  
+#star1:checked ~ label > svg {
+    fill: #ef4444;
+}
+  
+#star2:checked ~ label > svg {
+    fill: #e06c2b;
+  }
+  
+#star3:checked ~ label > svg {
+    fill: #eab308;
+  }
+  
+#star4:checked ~ label > svg {
+    fill: #19c37d;
+  }
+  
+#star5:checked ~ label > svg {
+    fill: #ab68ff;
+  }

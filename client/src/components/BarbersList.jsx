@@ -11,7 +11,11 @@ function BarbersList() {
     barber.name.toLowerCase().includes(search.toLowerCase())
   );
 
-    const position = {lat: 40.790294, lng: -73.946481}
+    const positions = [
+        {lat: 40.790294, lng: -73.946481},
+        {lat: 40.6892494, lng: -74.0445004},
+        {lat: 40.7484405, lng: -73.9882447},
+    ]
 
     return (
         <div className="barber-list-containter">
@@ -20,14 +24,18 @@ function BarbersList() {
 
         <APIProvider apiKey={import.meta.env.VITE_API_KEY}>
             <Map
-            defaultCenter={position}
+            defaultCenter={positions[0]}
             defaultZoom={10}
             gestureHandling={'greedy'}
             disableDefaultUI={true}
             mapId={import.meta.env.VITE_API_MAP_ID}>
 
             <AdvancedMarker 
-            position={position}>
+            position={positions[1]} >
+            </AdvancedMarker>
+
+            <AdvancedMarker 
+            position={positions[2]} >
             </AdvancedMarker>
 
             </Map>

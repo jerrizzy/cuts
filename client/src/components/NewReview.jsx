@@ -37,7 +37,13 @@ function NewReview({ barber, review, setReview }) {
             return res.json();
         })
         .then((data) => {
-            setReview([...review, data]);
+            // Clear input fields
+            setMessage("");
+            setRating(1);
+
+            // Update review state
+            setReview([data, ...review]); // Prepend the new review to the existing list
+  
         })
         .catch((error) => {
             console.error("Error posting review:", error);

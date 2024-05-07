@@ -19,7 +19,13 @@ function Home() {
     <div className="banner">
       <h1 >Discover your favorite barber.</h1>
 
-      <Search handleSearch={handleSearch} />
+      <div className="form">
+        <form onSubmit={handleSearch} className="new-destination-form" />
+            <input onChange={(e) => {setBarbers(e.target.value);}} value= {barbers} type="text" name="barbers" placeholder="Search for your barber..."className="input-text"></input>
+            <input type="submit" name= "submit" value= "Search for barbers" className="submit"></input>
+          <form/>
+        </div> 
+
     <div>    
       <h3>Real people, real reviews.</h3>
       </div>  

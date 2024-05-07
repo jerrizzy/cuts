@@ -37,8 +37,6 @@ return (
             <p>review: {reviewMessage}</p>
             {/* <p>{barber.bio}</p> */}
             <p>rating: {averageRating}</p>
-
-            <BarberPage />
             
 
     <div className="rating">

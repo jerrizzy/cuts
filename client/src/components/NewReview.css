@@ -45,7 +45,7 @@
 .new-message-form .submit:hover {
     background-color: #45a049; /* Changes the background color when hovering over the button */
 
-}
+/* }
 
 .rating > label {
     margin-right: 4px;
@@ -55,7 +55,6 @@
     display: none;
 }
 
-  
   
 .rating:not(:checked) > label > svg {
     fill: #666;
@@ -114,4 +113,4 @@
   
 #star5:checked ~ label > svg {
     fill: #ab68ff;
-  }
+  } */

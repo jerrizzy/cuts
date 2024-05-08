@@ -1,5 +1,5 @@
 #main {
-    max-width: 900px;
+    /* max-width: 900px; */
     margin: auto;
 }
 
@@ -21,8 +21,15 @@ ul  {
   row-gap: 20px;
 }
 
+.barber-list-container{
+  display: flex;
+  flex-direction: row;
+  
+}
+
 
 .barber-card-container {
+
   border-color: rgb(235, 235, 235);
   display: flex;
   /* flex-flow: row; */
@@ -83,9 +90,10 @@ ul  {
     
     font-size: 22px;
     text-align: center;
-    height: 100vh;
+    /* height: 100vh; */
     width: 100%;
     align-items: center;
+    margin-bottom:100px;
 }
 
 .banner h3 {
@@ -135,7 +143,7 @@ ul  {
 }
 
 .review-list li {
-  border-bottom: solid 1px white;
+  border-bottom: dotted 1px white;
 }
 
 /* .search input {

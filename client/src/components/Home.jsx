@@ -26,9 +26,7 @@ function Home() {
   return (
     <div className="banner">
       <h1>Discover your favorite barber.</h1>
-
-      <div className="search-container">
-        <form onSubmit={handleSearchSubmit} className="search">
+      <form onSubmit={handleSearchSubmit} className="search">
           <input
             type="text"
             value={search}
@@ -42,6 +40,8 @@ function Home() {
             className="submit"
           />
         </form>
+      <div className="search-container">
+        
       </div> 
 
     <div>    

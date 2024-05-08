@@ -1,0 +1,20 @@
+.login-container {
+display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; /* Increases the gap between form elements */
+  width: 100%
+}
+
+.login-container .input-text {
+    width: 100%; /* Makes the input take the full width of the form */
+    padding: 5px;
+    border-radius: 0px;
+    transition: border-color 0.3s ease;
+    font-size: large;
+}
+
+.login-container .submit {
+    
+}

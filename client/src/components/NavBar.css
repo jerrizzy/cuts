@@ -2,21 +2,41 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-   
+    padding-right: 1em;
+    padding-left: 1em;
+    position: fixed;
+    width: 90vw;
+    top: 0;
 }
 
 .nav-link {
+    letter-spacing: -0.04ch;
     display: flex;
     gap: 20px;
     justify-content: flex-end;
+    
 }
 
+.barbers-button {
+    padding: .5em;
+    font-weight: 900
+}
+
+.login-button  {
+    background: white;
+    border-radius: 24px;
+    padding: .5em;
+    font-weight: 900
+}
 
 .active {
-    color: greenyellow;
+    color: rgb(0, 0, 0);
 }
 
-/* .logo {
-    margin: 0;
-    font-size: 24px;} */
+.logo {
+    letter-spacing: -0.04ch;
+    font-size: 3em;
+    margin-top: 0;
+    font-weight: 700;
+}
 

@@ -28,14 +28,8 @@ function BarberPage() {
 
   return(
     <div className="barber-detail-page">
-      <aside>
         <img src={barber.image} alt='image' />
-
-        <div className="qrcode" >
-          <QRCode value={window.location.href} size={256}
-    style={{ height: "auto", maxWidth: "40%", width: "20%" }}
-    viewBox={`0 0 256 256`} />
-        </div>
+      <aside className="two-columns">
 
         <div>
         <Box
@@ -44,9 +38,7 @@ function BarberPage() {
           }}>
           <Typography component="legend">{reviews.length} (reviews)</Typography>
           <Rating name="read-only" value={averageRating} readOnly />
-      </Box>
-        </div>
-
+        </Box>
         <h1>{barber.name}</h1>
         <p>{barber.bio}</p>
         <p>{barber.website}</p>
@@ -54,6 +46,14 @@ function BarberPage() {
         <p>{barber.city} {barber.state}, {barber.zip_code}</p>
         <p>{barber.phone}</p>
         <Reviews barber={barber} reviews={reviews} />
+        </div>
+
+        <div className="qrcode" >
+          <QRCode value={window.location.href} size={256}
+    style={{ height: "auto", maxWidth: "100%", width: "50%" }}
+    viewBox={`0 0 256 256`} />
+        </div>
+
       </aside>
       </div>
   );

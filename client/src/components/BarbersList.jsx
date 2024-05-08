@@ -28,12 +28,14 @@ function BarbersList() {
     ]
 
     return (<>
-            <input
-                type="text"
-                placeholder="Search barbers..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
+            <div className="center-search">
+                <input
+                    type="text"
+                    placeholder="Search barbers..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
         <div className="barber-list-container">
 
 
@@ -42,7 +44,7 @@ function BarbersList() {
                 {barbers && filteredBarbers.map(barber => <li> <BarberCard key={barber.id} barber={barber} /> </li>)}
             </ul>
 
-    <div className="map" style={{width: '50vw', height: '20vh'}}>
+    <div className="map" style={{width: '40vw', height: '90vh'}}>
 
         <APIProvider apiKey={import.meta.env.VITE_API_KEY}>
             <Map

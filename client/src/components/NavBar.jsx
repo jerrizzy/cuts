@@ -9,17 +9,17 @@ function NavBar() {
 
         <div className="nav-link">
 
-        <div className="barbers-button">
-        <NavLink
-        to="/barbers"
-        >Barbers</NavLink>
-        </div>
+          <div className="barbers-button">
+            <NavLink
+            to="/barbers"
+            >Barbers</NavLink>
+          </div>
 
-        <div>
-        <NavLink
-            to="/login"
-        >Login</NavLink>
-        </div>
+          <div className="login-button">
+            <NavLink
+                to="/login"
+            >Login</NavLink>
+          </div>
         </div>
     </nav>
   );

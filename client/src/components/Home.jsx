@@ -12,7 +12,7 @@ function Home() {
 
     // Navigate to the barber card page with the search query as a parameter
     // the search query is not passing to the barber card page as a query parameter
-    navigate(`/barbers?search=${search}`);
+    navigate(`/barbers?search=${search}/name`);
   };
 
   const filteredBarbers = barbers.filter((barber) =>
@@ -36,7 +36,7 @@ function Home() {
           />
           <input
             type="submit"
-            value="Search for barbers"
+            value="enter"
             className="submit"
           />
         </form>

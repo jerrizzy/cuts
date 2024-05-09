@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
+
 
 function Logout() {
-  const [isLoggedOut, setIsLoggedOut] = useState()
+  const [isLoggedOut, setIsLoggedOut] = useState(false)
+    
 
   useEffect(() => {
     fetch('http://127.0.0.1:5555/logout', {
       method: 'DELETE',
       credentials: 'include'
     })
-    .then(resp => {
+    .then((resp) => {
       if (resp.ok) {
         setIsLoggedOut(true)
-        // redirect('/')
+        console.log(resp);
+        navigate('/')
       } else {
         setIsLoggedOut(false)
       }
+
     })
   }, [])
 

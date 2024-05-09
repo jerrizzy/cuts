@@ -9,35 +9,66 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   // const [user, setUser] = useState(null); 
-  const navigate = useNavigate();
   const { user } = useOutletContext();
 
-  function handleSubmit(event) {
-    event.preventDefault()
-    const data = {
-      'username': event.target.username.value,
-      'password': event.target.password.value,
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    const userInfo = {
+        username: username,
+        password: password
+    };
+
+    try {
+        const response = await fetch('http://localhost:5555/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(userInfo)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            setMsg('Login failed: ' + (errorData.error || 'Unauthorized'));
+            setError('Invalid credentials');
+        } else {
+            const userData = await response.json();
+            
+            if (userData.message === 'You are already logged in') {
+                setMsg('You are already logged in');
+                setError('You are already logged in');
+                // Optionally, perform navigation or other actions here
+            } else {
+                // Update the logged-in user state with the user data
+                // setUser(userData.user);
+                navigate('/barbers');
+                window.location.reload()
+                setMsg('Login successful');
+                setError('');
+                console.log(`You are logged in as: ${user.username}`);
+
+            }
+        }
+    } catch (error) {
+        console.error('Login error:', error.message);
+        setError('An error occurred during login');
+    }
+};
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+        setError('Username and password are required');
+        setMsg('');
+        return;
     }
 
-    fetch('http://127.0.0.1:5555/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    })
-    .then(resp => {
-      if (resp.ok) {
-        setMsg('Log in successful!')
-      } else {
-        setMsg('Log in failed!')
-        return Promise.reject(resp)
-      }
-    })
-    .catch(resp => resp.json())
-    .then(data => setError(data))
-  }
+    await handleLogin();
+};
 
   const errorElement = error ? <p style={{color: 'red'}}>{error.error}</p> : null
 
@@ -48,9 +79,9 @@ function Login() {
     {errorElement}
     <form onSubmit={handleSubmit}>
       <label>Username: </label>
-      <input type="text" name="username" className="input-text" /><br />
+      <input type="text" name="username" className="input-text" value={username} onChange={(e) => setUsername(e.target.value)}/><br />
       <label>Password: </label>
-      <input type="password" name="password" className="input-text"/><br />
+      <input type="password" name="password" className="input-text" value={password} onChange={(e) => setPassword(e.target.value)}/><br />
       <input type="submit" className="submit" />
     </form>
   

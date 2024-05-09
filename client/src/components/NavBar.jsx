@@ -20,6 +20,11 @@ function NavBar() {
                 to="/login"
             >Login</NavLink>
           </div>
+          <div className="login-button">
+            <NavLink
+                to="/logout"
+            >Logout</NavLink>
+          </div>
         </div>
     </nav>
   );

@@ -6,6 +6,7 @@ import BarbersList from './components/BarbersList.jsx'
 import BarberPage from './components/BarberPage.jsx'
 import Home from './components/Home.jsx'
 import Login from './components/Login.jsx'
+import Logout from './components/Logout.jsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/logout",
+      element: <Logout />,
     },
     {
       path: "/barbers",

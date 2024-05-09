@@ -30,7 +30,7 @@ return (
             </div>
             
             <div className='barber-card-detail'>
-            <h3>name: {barber.name}</h3>
+            <h3>{barber.name}</h3>
             <h4>{barber.city}</h4>
             <p>{barber.website}</p>
             

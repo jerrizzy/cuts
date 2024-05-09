@@ -1,7 +1,15 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 import "./NavBar.css";
 
 function NavBar() {
+
+  const [showLogin, setShowLogin] = useState(false);
+
+  const handleLoginClick = () => {
+    setShowLogin(!showLogin);
+  }
+
   return (
     <nav className="navbar">
       
@@ -15,13 +23,15 @@ function NavBar() {
             >Barbers</NavLink>
           </div>
 
-          <div className="login-button">
+          
+          <div className="login-button" onClick={handleLoginClick} >
             <NavLink
                 to="/login"
             >Login</NavLink>
           </div>
-          <div className="login-button">
-            <NavLink
+          
+          <div className="logout-button" >
+            <NavLink 
                 to="/logout"
             >Logout</NavLink>
           </div>

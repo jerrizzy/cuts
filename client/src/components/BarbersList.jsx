@@ -27,7 +27,8 @@ function BarbersList() {
         {lat: 40.7484405, lng: -73.9882447},
     ]
 
-    return (<>
+    return (
+        <>
             <div className="center-search">
                 <input
                     type="text"
@@ -36,9 +37,8 @@ function BarbersList() {
                     onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
+            
         <div className="barber-list-container">
-
-
 
             <ul className="barber-list">
                 {barbers && filteredBarbers.map(barber => <li> <BarberCard key={barber.id} barber={barber} /> </li>)}
@@ -58,7 +58,7 @@ function BarbersList() {
             position={positions[1]} >
             </AdvancedMarker>
 
-            <AdvancedMarker s
+            <AdvancedMarker
             position={positions[2]} >
             </AdvancedMarker>
 
@@ -66,6 +66,7 @@ function BarbersList() {
         </APIProvider>
         </div>
         </div>
+
         </>
     )}
 

@@ -17,16 +17,22 @@
     
 }
 
-.barbers-button {
+.barbers-button a {
     padding: .5em;
-    font-weight: 900
+    font-weight: bold 
 }
 
-.login-button  {
+.logout-button a {
+    padding-top: 8px;
+    font-weight: 700;
+    background-color: light
+}
+
+.login-button {
     background: white;
     border-radius: 24px;
     padding: .5em;
-    font-weight: 900
+    font-weight: 700;
 }
 
 .active {

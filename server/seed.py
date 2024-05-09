@@ -9,6 +9,7 @@ def run():
 
     # delete all barbers from dogs table
     print('deleting all data...')
+    User.query.delete()
     Barber.query.delete()
     Client.query.delete()
     Review.query.delete()
@@ -48,7 +49,13 @@ def run():
     db.session.add_all(reviews)
     db.session.commit() 
 
-    
+    users = [
+        User(username='jerry', password='a', role='barber'),
+        User(username='jimmy', password='a', role='client'),
+    ]
+    db.session.add_all(users)
+    db.session.commit() 
+
 
 if __name__ == '__main__':
     with app.app_context():

@@ -37,6 +37,7 @@ Migrate(app, db)
 # initialize CORS
 CORS(app, supports_credentials=True)
 
+
 @app.route('/')
 def root():
     return '<h1>Yo</h1>'
@@ -100,24 +101,33 @@ def signup():
 # login route
 @app.route('/login', methods=['POST'])
 def login():
-    json_data = request.get_json()
 
-    # check if user exists in db
-    user = User.query.filter(User.username == json_data.get('username')).first()
-    if not user:
-        return {'errors': ['user does not exist']}, 404
-    
-    # check if password is valid by passing it to authenticate method in User model
-    if not user.authenticate(json_data.get('password')):
-        return {'errors': ['invalid password']}, 401
-    
-    # store a cookie in the browser with session from flask session so user doesn't have to login every time he goes to a new page on the site
-    session['user_id'] = user.id #user_id is the cookie name
+    if request.method == 'POST':
+        json_data = request.get_json()
+
+        # check if user exists in db
+        user = User.query.filter(User.username == json_data.get('username')).first()
+        if not user:
+            return {'errors': ['user does not exist']}, 404
+        
+        # check if password is valid by passing it to authenticate method in User model
+        if not user.authenticate(json_data.get('password')):
+            return {'errors': ['invalid password']}, 401
+
+            # Check if user is already logged in    
+        if 'user_id' in session:
+            user_id = session['user_id']
+            user = User.query.get(user_id)
+            if user:
+                return {'message': 'You are already logged in', 'user': user.to_dict()}, 200
+
+        # store a cookie in the browser with session from flask session so user doesn't have to login every time he goes to a new page on the site
+        session['user_id'] = user.id #user_id is the cookie name
     
     return user.to_dict(), 200
 
 #logout route
-@app.route('/logout', methods=['GET'])
+@app.route('/logout', methods=['DELETE'])
 def logout():
 
     # delete the session cookie that holds user_id from the browser

@@ -14,5 +14,3 @@ SQLalchemy is used to store barbers' information and clients' information in the
 If signed up as a barber, the user can create or add his information as a barber with POST request.
 
 ![cuts_db](https://github.com/jerrizzy/cuts/assets/37149800/39d9aa41-c956-4484-a0a6-c9f9f78bf0d5)
-
-

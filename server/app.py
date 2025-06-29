@@ -209,7 +209,7 @@ def barbers_by_id(id):
         return barber_obj, 200
     
     elif request.method == 'DELETE':
-        # delete dog from the db
+        # delete barber from the db
         db.session.delete(barber_obj)
         db.session.commit()
 

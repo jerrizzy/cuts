@@ -242,7 +242,7 @@ def get_clients():
         return new_client.to_dict(), 201
     
 @app.route('/clients/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
-def clients_by_id(int):
+def clients_by_id(id):
     client_obj = Client.query.filter(Client.id == id).first()
     if not client_obj:
         return {'error', 'client not found'}, 404

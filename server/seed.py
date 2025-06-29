@@ -7,7 +7,7 @@ fake = Faker()
 
 def run():
 
-    # delete all barbers from dogs table
+    # delete all barbers from barbers table
     print('deleting all data...')
     User.query.delete()
     Barber.query.delete()

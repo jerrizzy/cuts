@@ -17,7 +17,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from sqlalchemy.exc import IntegrityError
 
-from models import db, Barber, Client, Review, User
+from models import db, Barber, Client, Review, User, bcrypt
 
 
 app = Flask(__name__)
@@ -32,6 +32,8 @@ app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 # initialize the sqlalchemy db
 db.init_app(app)
+# initialize bcrypt
+bcrypt.init_app(app)
 # initialize alembic (migration framework)
 Migrate(app, db)
 # initialize CORS

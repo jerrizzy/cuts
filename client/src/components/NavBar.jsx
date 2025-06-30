@@ -24,10 +24,16 @@ function NavBar() {
           </div>
 
           
-          <div className="login-button" onClick={handleLoginClick} >
+        <div className="login-button" onClick={handleLoginClick} >
             <NavLink
                 to="/login"
             >Login</NavLink>
+          </div>
+
+          <div className="signup-button" >
+            <NavLink
+                to="/signup"
+            >Signup</NavLink>
           </div>
           
           <div className="logout-button" >

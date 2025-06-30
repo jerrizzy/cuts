@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react"
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import NavBar from './NavBar';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './Login.css'
 
 function Login() {
@@ -8,8 +7,6 @@ function Login() {
   const [error, setError] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [user, setUser] = useState(null); 
-  const { user } = useOutletContext();
 
   const navigate = useNavigate();
 
@@ -45,10 +42,9 @@ function Login() {
                 // Update the logged-in user state with the user data
                 // setUser(userData.user);
                 navigate('/barbers');
-                window.location.reload()
+                window.location.reload();
                 setMsg('Login successful');
                 setError('');
-                console.log(`You are logged in as: ${user.username}`);
 
             }
         }
@@ -70,7 +66,7 @@ const handleSubmit = async (e) => {
     await handleLogin();
 };
 
-  const errorElement = error ? <p style={{color: 'red'}}>{error.error}</p> : null
+  const errorElement = error ? <p style={{color: 'red'}}>{error}</p> : null
 
   return (
     <div className="login-container">

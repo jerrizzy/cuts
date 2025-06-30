@@ -96,15 +96,6 @@ ul  {
 }
 
 
-.banner h1 {
-    
-    /* font-size: 22px; */
-    text-align: center;
-    /* height: 100vh; */
-    width: 100%;
-    align-items: center;
-    /* margin-bottom:100px; */
-}
 
 .banner {
   display: flex;
@@ -112,14 +103,24 @@ ul  {
   justify-content: center;
   align-items: center;
   padding-top: 150px;
+  background: linear-gradient(135deg, #ff6b6b, #f4c430);
+  color: #fff;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
 
+.banner h1 {
+  width: 100%;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .banner h3 {
-    margin-bottom: 100px;
-    text-align: center;
-
+  margin-top: 1rem;
+  font-weight: 500;
+  margin-bottom: 100px;
 }
+
 
 .center-search {
   display: flex;
@@ -204,6 +205,23 @@ ul  {
   border-radius: 50px;
   transition: border-color 0.3s ease;
   font-size: large;
+}
+
+.search-button {
+  margin-left: 0.5rem;
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: none;
+  background-color: #fff;
+  color: #ff6b6b;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #ffe1e1;
 }
   
   /* .rating:not(:checked) > label > svg {
